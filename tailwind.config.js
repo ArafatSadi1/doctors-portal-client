@@ -1,3 +1,4 @@
+
 module.exports = {
   content: ["./src/**/*.{html,js}"],
   daisyui: {
@@ -14,5 +15,6 @@ module.exports = {
       "light",
       "cupcake",
     ],
-  },  plugins: [require("daisyui")],
+  },
+  plugins: [require("daisyui")],
 };
