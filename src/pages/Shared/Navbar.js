@@ -25,13 +25,13 @@ const Navbar = () => {
     </>
   );
   return (
-    <div class="navbar sticky top-0">
-      <div class="navbar-start">
-        <div class="dropdown">
-          <label tabindex="0" class="btn btn-ghost lg:hidden">
+    <div className="navbar sticky top-0">
+      <div className="navbar-start">
+        <div className="dropdown">
+          <label tabindex="0" className="btn btn-ghost lg:hidden">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
+              className="h-5 w-5"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -46,20 +46,20 @@ const Navbar = () => {
           </label>
           <ul
             tabindex="0"
-            class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+            className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
           >
             {menuItems}
           </ul>
         </div>
         <Link
           to="/"
-          class="lg:ml-12 sm:ml-4 normal-case text-xl cursor-pointer"
+          className="lg:ml-12 sm:ml-4 normal-case text-xl cursor-pointer"
         >
           Doctors Portal
         </Link>
       </div>
-      <div class="navbar-end hidden lg:flex">
-        <ul class="menu menu-horizontal p-0 mr-6">{menuItems}</ul>
+      <div className="navbar-end hidden lg:flex">
+        <ul className="menu menu-horizontal p-0 mr-6">{menuItems}</ul>
       </div>
     </div>
   );

@@ -5,16 +5,21 @@ import PrimaryButton from "../../Shared/PrimaryButton";
 
 const MakeAppointment = () => {
   return (
-    <div class="hero min-h-screen">
+    <div className="hero min-h-screen">
       <div
         style={{ backgroundImage: `url(${appointment})` }}
-        class="hero-content flex-col lg:flex-row lg:px-12 pb-0"
+        className="hero-content flex-col lg:flex-row lg:px-12 pb-0"
       >
-        <img src={doctorsmall} style={{marginTop: "-100px"}} class="max-w-sm lg:max-w-lg hidden lg:block" alt="" />
+        <img
+          src={doctorsmall}
+          style={{ marginTop: "-100px" }}
+          className="max-w-sm lg:max-w-lg hidden lg:block"
+          alt=""
+        />
         <div className="p-4">
           <h5 className="text-secondary font-bold">Appointment</h5>
-          <h1 class="text-4xl text-white">Make an appointment Today</h1>
-          <p class="py-6  text-white">
+          <h1 className="text-4xl text-white">Make an appointment Today</h1>
+          <p className="py-6  text-white">
             It is a long established fact that a reader will be distracted by
             the readable content of a page when looking at its layout. The point
             of using Lorem Ipsumis that it has a more-or-less normal
