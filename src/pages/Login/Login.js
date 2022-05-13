@@ -1,39 +1,61 @@
-import React from "react";
-import { useSignInWithEmailAndPassword, useSignInWithGoogle } from "react-firebase-hooks/auth";
+import React, { useEffect, useState } from "react";
+import {
+  useSendPasswordResetEmail,
+  useSignInWithEmailAndPassword,
+  useSignInWithGoogle,
+} from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import { useForm } from "react-hook-form";
 import Loading from "../Shared/Loading";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { async } from "@firebase/util";
 
 const Login = () => {
-  const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
-  const [
-    signInWithEmailAndPassword,
-    user,
-    loading,
-    error,
-  ] = useSignInWithEmailAndPassword(auth);
-
-  let signInError;
-
-
   const {
     register,
     formState: { errors },
     handleSubmit,
+    getValues
   } = useForm();
+  const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
+  const [signInWithEmailAndPassword, user, loading, error] =
+    useSignInWithEmailAndPassword(auth);
+  const [sendPasswordResetEmail, sending, resetError] =
+    useSendPasswordResetEmail(auth);
 
-  if( loading || gLoading){
-    return <Loading></Loading>
-}
+  const navigate = useNavigate();
+  const location = useLocation();
 
-if(error || gError){
-    signInError = <p className="text-red-500 pb-2 pl-1"><small>{error?.message || gError.message}</small></p>
-}
+  let signInError;
+
+  let from = location.state?.from?.pathname || "/";
+
+  useEffect(() => {
+    if (user || gUser) {
+      navigate(from, { replace: true });
+    }
+  }, [user || gUser || from || navigate]);
+
+  if (loading || gLoading) {
+    return <Loading></Loading>;
+  }
+
+  if (error || gError) {
+    signInError = (
+      <p className="text-red-500 pb-2 pl-1">
+        <small>{error?.message || gError.message}</small>
+      </p>
+    );
+  }
 
   const onSubmit = (data) => {
-    signInWithEmailAndPassword(data.email, data.password)
-    console.log(data);
+    signInWithEmailAndPassword(data.email, data.password);
+  };
+
+  const handlePasswordReset = async() => {
+    const email = getValues("email")
+    await sendPasswordResetEmail(email);
+    alert('Sent email')
   };
   return (
     <div className="h-screen grid justify-center items-center">
@@ -48,13 +70,13 @@ if(error || gError){
               type="email"
               className="input input-bordered"
               {...register("email", {
-                required:{
-                    value: true,
-                    message: "Email is Required"
+                required: {
+                  value: true,
+                  message: "Email is Required",
                 },
                 pattern: {
-                    value: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
-                    message: "Provide a valid Email"
+                  value: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
+                  message: "Provide a valid Email",
                 },
               })}
             />
@@ -78,18 +100,18 @@ if(error || gError){
               type="password"
               className="input input-bordered"
               {...register("password", {
-                required:{
-                    value: true,
-                    message: "Password is Required"
+                required: {
+                  value: true,
+                  message: "Password is Required",
                 },
                 minLength: {
-                    value: 6,
-                    message: "Password must be 6 character or longer"
+                  value: 6,
+                  message: "Password must be 6 character or longer",
                 },
               })}
             />
             <label className="label">
-            {errors.password?.type === "required" && (
+              {errors.password?.type === "required" && (
                 <span className="label-text-alt text-red-500">
                   {errors.password.message}
                 </span>
@@ -101,9 +123,12 @@ if(error || gError){
               )}
             </label>
             <label className="label">
-              <a href="#" className="label-text-alt link link-hover">
+              <button
+                onClick={handlePasswordReset}
+                className="label-text-alt link link-hover"
+              >
                 Forgot password?
-              </a>
+              </button>
             </label>
             {signInError}
             <input
@@ -112,9 +137,19 @@ if(error || gError){
               value="Log in"
             />
           </form>
-          <p className="text-center"><small>New to Doctors portal? <Link to="/signUp" className="text-secondary">Create new account</Link></small></p>
+          <p className="text-center">
+            <small>
+              New to Doctors portal?{" "}
+              <Link to="/signUp" className="text-secondary">
+                Create new account
+              </Link>
+            </small>
+          </p>
           <div className="divider">OR</div>
-          <button onClick={() => signInWithGoogle()} className="btn btn-outline">
+          <button
+            onClick={() => signInWithGoogle()}
+            className="btn btn-outline"
+          >
             Continue With Google
           </button>
         </div>
