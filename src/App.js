@@ -7,10 +7,11 @@ import Appointment from './pages/Appointment/Appointment';
 import Review from './pages/Review/Review';
 import ContactUs from './pages/ContactUs/ContactUs';
 import Login from './pages/Login/Login';
+import SignUp from './pages/Login/SignUp';
 
 function App() {
   return (
-    <div>
+    <div className='max-w-7xl mx-auto'>
       <Navbar></Navbar>
       <Routes>
         <Route path='/' element={<Home></Home>}></Route>
@@ -19,6 +20,7 @@ function App() {
         <Route path='/review' element={<Review></Review>}></Route>
         <Route path='/contactUs' element={<ContactUs></ContactUs>}></Route>
         <Route path='/login' element={<Login></Login>}></Route>
+        <Route path='/signUp' element={<SignUp></SignUp>}></Route>
       </Routes>
     </div>
   );
