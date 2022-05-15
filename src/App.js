@@ -14,6 +14,9 @@ import "react-toastify/dist/ReactToastify.css";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import MyAppointments from "./pages/Dashboard/MyAppointments";
 import MyReview from "./pages/Dashboard/MyReview";
+import MyHistory from "./pages/Dashboard/MyHistory";
+import AllUsers from "./pages/Dashboard/AllUsers";
+import RequiredAdmin from "./pages/RequiredAuth/RequiredAdmin";
 
 function App() {
   return (
@@ -21,9 +24,9 @@ function App() {
       <Navbar></Navbar>
       <Routes>
         <Route path="/" element={<Home></Home>}></Route>
-        <Route path="/about" element={<About></About>}></Route>
+        <Route path="about" element={<About></About>}></Route>
         <Route
-          path="/appointment"
+          path="appointment"
           element={
             <RequiredAuth>
               <Appointment></Appointment>
@@ -31,7 +34,7 @@ function App() {
           }
         ></Route>
         <Route
-          path="/dashboard"
+          path="dashboard"
           element={
             <RequiredAuth>
               <Dashboard></Dashboard>
@@ -39,12 +42,14 @@ function App() {
           }
         >
           <Route index element={<MyAppointments></MyAppointments>}></Route>
-          <Route path="/dashboard/myReview" element={<MyReview></MyReview>}></Route>
+          <Route path="myReview" element={<MyReview></MyReview>}></Route>
+          <Route path="myHistory" element={<MyHistory></MyHistory>}></Route>
+          <Route path="allUsers" element={<RequiredAdmin><AllUsers></AllUsers></RequiredAdmin>}></Route>
         </Route>
-        <Route path="/review" element={<Review></Review>}></Route>
-        <Route path="/contactUs" element={<ContactUs></ContactUs>}></Route>
-        <Route path="/login" element={<Login></Login>}></Route>
-        <Route path="/signUp" element={<SignUp></SignUp>}></Route>
+        <Route path="review" element={<Review></Review>}></Route>
+        <Route path="contactUs" element={<ContactUs></ContactUs>}></Route>
+        <Route path="login" element={<Login></Login>}></Route>
+        <Route path="signUp" element={<SignUp></SignUp>}></Route>
       </Routes>
       <ToastContainer />
     </div>

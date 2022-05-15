@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import Loading from "../Shared/Loading";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { async } from "@firebase/util";
+import useToken from "../../hooks/useToken";
 
 const Login = () => {
   const {
@@ -25,16 +26,17 @@ const Login = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const [token] = useToken(user || gUser)
 
   let signInError;
 
   let from = location.state?.from?.pathname || "/";
 
   useEffect(() => {
-    if (user || gUser) {
+    if (token) {
       navigate(from, { replace: true });
     }
-  }, [user || gUser || from || navigate]);
+  }, [token || from || navigate]);
 
   if (loading || gLoading) {
     return <Loading></Loading>;
