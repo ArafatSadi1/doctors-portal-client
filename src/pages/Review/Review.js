@@ -30,7 +30,7 @@ const Review = () => {
     },
   ];
   return (
-    <div className="lg:mt-0 mb-20">
+    <div className="lg:mt-0 p-14 mb-20">
       <div className="flex justify-between items-center">
         <div>
           <h5 className="text-secondary font-bold">Testimonial</h5>
