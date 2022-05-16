@@ -141,7 +141,7 @@ const Login = () => {
           </form>
           <p className="text-center">
             <small>
-              New to Doctors portal?{" "}
+              New to Doctors portal?
               <Link to="/signUp" className="text-secondary">
                 Create new account
               </Link>
@@ -150,7 +150,7 @@ const Login = () => {
           <div className="divider">OR</div>
           <button
             onClick={() => signInWithGoogle()}
-            className="btn btn-outline"
+            className="btn btn-accent btn-outline"
           >
             Continue With Google
           </button>
