@@ -8,9 +8,9 @@ import auth from "../../firebase.init";
 const BookingModal = ({ treatment, setTreatment, date, refetch }) => {
   const { _id, name, slots } = treatment;
   const [user] = useAuthState(auth);
-  const formattedDate = format(date, 'PP');
+  const formattedDate = format(date, "PP");
 
-  const handleBooking = async(event) => {
+  const handleBooking = async (event) => {
     event.preventDefault();
     const slot = event.target.slot.value;
     const phone = event.target.phone.value;
@@ -21,18 +21,19 @@ const BookingModal = ({ treatment, setTreatment, date, refetch }) => {
       slot,
       patient: user.email,
       patientName: user.displayName,
-      phone
+      phone,
+    };
+    const url = "http://localhost:5000/bookingInfo";
+    const { data } = await axios.post(url, bookingInfo);
+    if (data.success) {
+      toast(`Appointment is set, ${formattedDate} at ${slot}`);
+    } else {
+      toast.error(
+        `Already have an appointment on ${data.bookingInfo?.date} at ${data.bookingInfo?.slot}`
+      );
     }
-    const url = 'http://localhost:5000/bookingInfo';
-    const {data} = await axios.post(url, bookingInfo);
+    refetch();
     // for now to close the modal
-    if(data.success){
-      toast(`Appointment is set, ${formattedDate} at ${slot}`)
-    }
-    else{
-      toast.error(`Already have an appointment on ${data.bookingInfo?.date} at ${data.bookingInfo?.slot}`)
-    }
-    refetch()
     setTreatment(null);
   };
   return (
@@ -63,7 +64,9 @@ const BookingModal = ({ treatment, setTreatment, date, refetch }) => {
               className="select select-bordered w-full max-w-lg"
             >
               {slots.map((slot, index) => (
-                <option key={index} value={slot}>{slot}</option>
+                <option key={index} value={slot}>
+                  {slot}
+                </option>
               ))}
             </select>
             <input

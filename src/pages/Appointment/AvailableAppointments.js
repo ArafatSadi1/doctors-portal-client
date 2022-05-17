@@ -8,12 +8,14 @@ import BookingModal from "./BookingModal";
 const AvailableAppointments = ({ date }) => {
   const [treatment, setTreatment] = useState(null);
   const formattedDate = format(date, "PP");
-  const { data: services, isLoading, refetch } = useQuery(
-    ["available", formattedDate],
-    () =>
-      fetch(`http://localhost:5000/available?date=${formattedDate}`).then(
-        (res) => res.json()
-      )
+  const {
+    data: services,
+    isLoading,
+    refetch,
+  } = useQuery(["available", formattedDate], () =>
+    fetch(
+      `https://boiling-anchorage-37217.herokuapp.com/available?date=${formattedDate}`
+    ).then((res) => res.json())
   );
   if (isLoading) {
     return <Loading></Loading>;
