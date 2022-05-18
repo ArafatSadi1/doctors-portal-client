@@ -1,24 +1,24 @@
 import React from "react";
 import { toast } from "react-toastify";
 
-const DeleteConfirmModal = ({deleteDoctor, setDeleteDoctor, refetch}) => {
-    const {email, name} = deleteDoctor;
-    const handleDelete = () => {
-        fetch(`http://localhost:5000/doctor/${email}`, {
-          method: "DELETE",
-          headers: {
-            authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.deletedCount) {
-              toast.success(`Doctor ${name} is deleted`);
-              setDeleteDoctor(null)
-              refetch();
-            }
-          });
-      };
+const DeleteConfirmModal = ({ deleteDoctor, setDeleteDoctor, refetch }) => {
+  const { email, name } = deleteDoctor;
+  const handleDelete = () => {
+    fetch(`https://boiling-anchorage-37217.herokuapp.com/doctor/${email}`, {
+      method: "DELETE",
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.deletedCount) {
+          toast.success(`Doctor ${name} is deleted`);
+          setDeleteDoctor(null);
+          refetch();
+        }
+      });
+  };
   return (
     <div>
       <input type="checkbox" id="delete-confirm-modal" class="modal-toggle" />
@@ -31,12 +31,9 @@ const DeleteConfirmModal = ({deleteDoctor, setDeleteDoctor, refetch}) => {
             If you delete the doctor that will remove for forever...
           </p>
           <div class="modal-action">
-          <button
-          onClick={()=>handleDelete()}
-          class="btn btn-error"
-        >
-          Delete
-        </button>
+            <button onClick={() => handleDelete()} class="btn btn-error">
+              Delete
+            </button>
             <label for="delete-confirm-modal" class="btn">
               Cancel
             </label>

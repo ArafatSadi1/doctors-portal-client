@@ -5,9 +5,13 @@ import DeleteConfirmModal from "./DeleteConfirmModal";
 import DoctorsRow from "./DoctorsRow";
 
 const ManageDoctors = () => {
-    const [deleteDoctor, setDeleteDoctor] = useState(null)
-  const { data: doctors, isLoading, refetch } = useQuery("doctor", () =>
-    fetch("http://localhost:5000/doctor", {
+  const [deleteDoctor, setDeleteDoctor] = useState(null);
+  const {
+    data: doctors,
+    isLoading,
+    refetch,
+  } = useQuery("doctor", () =>
+    fetch("https://boiling-anchorage-37217.herokuapp.com/doctor", {
       method: "GET",
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -33,24 +37,24 @@ const ManageDoctors = () => {
             </tr>
           </thead>
           <tbody>
-              {
-                  doctors.map((doctor, index) => <DoctorsRow
-                    key={doctor._id}
-                    doctor={doctor}
-                    index={index}
-                    setDeleteDoctor={setDeleteDoctor}
-                  ></DoctorsRow>)
-              }
+            {doctors.map((doctor, index) => (
+              <DoctorsRow
+                key={doctor._id}
+                doctor={doctor}
+                index={index}
+                setDeleteDoctor={setDeleteDoctor}
+              ></DoctorsRow>
+            ))}
           </tbody>
         </table>
       </div>
-      {
-          deleteDoctor && <DeleteConfirmModal
+      {deleteDoctor && (
+        <DeleteConfirmModal
           deleteDoctor={deleteDoctor}
           setDeleteDoctor={setDeleteDoctor}
           refetch={refetch}
-          ></DeleteConfirmModal>
-      }
+        ></DeleteConfirmModal>
+      )}
     </div>
   );
 };

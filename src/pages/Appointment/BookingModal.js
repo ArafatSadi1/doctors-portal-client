@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import auth from "../../firebase.init";
 
 const BookingModal = ({ treatment, setTreatment, date, refetch }) => {
-  const { _id, name, slots } = treatment;
+  const { _id, name, slots, price } = treatment;
   const [user] = useAuthState(auth);
   const formattedDate = format(date, "PP");
 
@@ -19,11 +19,12 @@ const BookingModal = ({ treatment, setTreatment, date, refetch }) => {
       treatment: name,
       date: formattedDate,
       slot,
+      price,
       patient: user.email,
       patientName: user.displayName,
       phone,
     };
-    const url = "http://localhost:5000/bookingInfo";
+    const url = "https://boiling-anchorage-37217.herokuapp.com/bookingInfo";
     const { data } = await axios.post(url, bookingInfo);
     if (data.success) {
       toast(`Appointment is set, ${formattedDate} at ${slot}`);

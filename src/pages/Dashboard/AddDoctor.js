@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import Loading from "../Shared/Loading";
 
 const AddDoctor = () => {
-    const [submitLoading, setSubmitLoading] = useState(false)
+  const [submitLoading, setSubmitLoading] = useState(false);
   const {
     register,
     formState: { errors },
@@ -14,7 +14,9 @@ const AddDoctor = () => {
   } = useForm();
 
   const { data: services, isLoading } = useQuery("services", () =>
-    fetch("http://localhost:5000/services").then((res) => res.json())
+    fetch("https://boiling-anchorage-37217.herokuapp.com/services").then(
+      (res) => res.json()
+    )
   );
 
   /**
@@ -28,44 +30,43 @@ const AddDoctor = () => {
   const imageStorageKey = "01c5f0cbdef5547fd5171cf1120bc83b";
 
   const onSubmit = async (data) => {
-    setSubmitLoading(true)
+    setSubmitLoading(true);
     const image = data.image[0];
     const formData = new FormData();
     formData.append("image", image);
     const url = `https://api.imgbb.com/1/upload?key=${imageStorageKey}`;
     fetch(url, {
       method: "POST",
-      body: formData
+      body: formData,
     })
       .then((res) => res.json())
       .then((result) => {
-          const imageUrl = result.data.url;
-          const doctor = {
-              name: data.name,
-              email: data.email,
-              specialty: data.specialty,
-              image: imageUrl
-          }
-          fetch('http://localhost:5000/doctor', {
-              method: 'POST',
-              headers: {
-                  'content-type': 'application/json',
-                  authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-              },
-              body: JSON.stringify(doctor)
-          })
-          .then(res => res.json())
-          .then(inserted => {
-              if(inserted.insertedId){
-                setSubmitLoading(false)
-                toast.success('Doctor added successfully')
-                reset()
-              }
-              else{
-                setSubmitLoading(false)
-                  toast.error('Doctor added failed')
-              }
-          })
+        const imageUrl = result.data.url;
+        const doctor = {
+          name: data.name,
+          email: data.email,
+          specialty: data.specialty,
+          image: imageUrl,
+        };
+        fetch("https://boiling-anchorage-37217.herokuapp.com/doctor", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+          body: JSON.stringify(doctor),
+        })
+          .then((res) => res.json())
+          .then((inserted) => {
+            if (inserted.insertedId) {
+              setSubmitLoading(false);
+              toast.success("Doctor added successfully");
+              reset();
+            } else {
+              setSubmitLoading(false);
+              toast.error("Doctor added failed");
+            }
+          });
       });
   };
 
